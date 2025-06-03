@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PMML version="4.2" xmlns="http://www.dmg.org/PMML-4_2">
+  <Header copyright="Alison">
+    <Application name="KNIME" version="5.4.3"/>
+  </Header>
+  <DataDictionary numberOfFields="5">
+    <DataField name="EDAD" optype="categorical" dataType="string">
+      <Value value="JOVEN"/>
+      <Value value="ADULTO"/>
+    </DataField>
+    <DataField name="DIAGNOSTICO" optype="categorical" dataType="string">
+      <Value value="HIPERMÉTROPE"/>
+      <Value value="MIOPE"/>
+    </DataField>
+    <DataField name="LAGRIMA" optype="categorical" dataType="string">
+      <Value value="NORMAL"/>
+      <Value value="REDUCIDA"/>
+    </DataField>
+    <DataField name="LENTE" optype="categorical" dataType="string">
+      <Value value="BLANDA"/>
+      <Value value="NINGUNA"/>
+      <Value value="RIGIDA"/>
+    </DataField>
+    <DataField name="ASTIGMASTIMO" optype="continuous" dataType="integer">
+      <Interval closure="closedClosed" leftMargin="0.0" rightMargin="1.0"/>
+    </DataField>
+  </DataDictionary>
+  <TreeModel modelName="DecisionTree" functionName="classification" splitCharacteristic="binarySplit" missingValueStrategy="lastPrediction" noTrueChildStrategy="returnNullPrediction">
+    <MiningSchema>
+      <MiningField name="EDAD" invalidValueTreatment="asIs"/>
+      <MiningField name="DIAGNOSTICO" invalidValueTreatment="asIs"/>
+      <MiningField name="LAGRIMA" invalidValueTreatment="asIs"/>
+      <MiningField name="ASTIGMASTIMO" invalidValueTreatment="asIs"/>
+      <MiningField name="LENTE" invalidValueTreatment="asIs" usageType="target"/>
+    </MiningSchema>
+    <Node id="0" score="NINGUNA" recordCount="16.0">
+      <True/>
+      <ScoreDistribution value="BLANDA" recordCount="2.0"/>
+      <ScoreDistribution value="NINGUNA" recordCount="11.0"/>
+      <ScoreDistribution value="RIGIDA" recordCount="3.0"/>
+      <Node id="1" score="NINGUNA" recordCount="8.0">
+        <SimplePredicate field="LAGRIMA" operator="equal" value="NORMAL"/>
+        <ScoreDistribution value="BLANDA" recordCount="2.0"/>
+        <ScoreDistribution value="NINGUNA" recordCount="3.0"/>
+        <ScoreDistribution value="RIGIDA" recordCount="3.0"/>
+        <Node id="2" score="BLANDA" recordCount="4.0">
+          <SimplePredicate field="ASTIGMASTIMO" operator="lessOrEqual" value="0.5"/>
+          <ScoreDistribution value="BLANDA" recordCount="2.0"/>
+          <ScoreDistribution value="NINGUNA" recordCount="2.0"/>
+          <ScoreDistribution value="RIGIDA" recordCount="0.0"/>
+          <Node id="3" score="BLANDA" recordCount="2.0">
+            <SimplePredicate field="EDAD" operator="equal" value="JOVEN"/>
+            <ScoreDistribution value="BLANDA" recordCount="2.0"/>
+            <ScoreDistribution value="NINGUNA" recordCount="0.0"/>
+            <ScoreDistribution value="RIGIDA" recordCount="0.0"/>
+          </Node>
+          <Node id="4" score="NINGUNA" recordCount="2.0">
+            <SimplePredicate field="EDAD" operator="equal" value="ADULTO"/>
+            <ScoreDistribution value="BLANDA" recordCount="0.0"/>
+            <ScoreDistribution value="NINGUNA" recordCount="2.0"/>
+            <ScoreDistribution value="RIGIDA" recordCount="0.0"/>
+          </Node>
+        </Node>
+        <Node id="5" score="RIGIDA" recordCount="4.0">
+          <SimplePredicate field="ASTIGMASTIMO" operator="greaterThan" value="0.5"/>
+          <ScoreDistribution value="BLANDA" recordCount="0.0"/>
+          <ScoreDistribution value="NINGUNA" recordCount="1.0"/>
+          <ScoreDistribution value="RIGIDA" recordCount="3.0"/>
+        </Node>
+      </Node>
+      <Node id="8" score="NINGUNA" recordCount="8.0">
+        <SimplePredicate field="LAGRIMA" operator="equal" value="REDUCIDA"/>
+        <ScoreDistribution value="BLANDA" recordCount="0.0"/>
+        <ScoreDistribution value="NINGUNA" recordCount="8.0"/>
+        <ScoreDistribution value="RIGIDA" recordCount="0.0"/>
+      </Node>
+    </Node>
+  </TreeModel>
+</PMML>

@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: prediccion-enfermedad-renal
+    env: python
+    buildCommand: ""
+    startCommand: python app.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10

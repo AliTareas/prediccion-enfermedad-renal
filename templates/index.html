@@ -1,0 +1,143 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediccion de Enfermedades</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        h4 {
+            text-align: center;
+            color: #424549;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        form {
+            flex: 2;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 40px;
+        }
+
+        .campo {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        .hint {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-top: 4px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            display: block;
+            margin: 30px auto 0;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        .resultado {
+            flex: 1;
+            background-color: #ecf0f1;
+            border-left: 6px solid #27ae60;
+            padding: 20px;
+            border-radius: 6px;
+            font-size: 20px;
+            color: #2c3e50;
+            box-shadow: 0px 0px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Prediccion de Enfermedad Renal Crónica</h1>
+    <h4>Complete el formulario para determinar la condición del paciente</h4>
+    <div class="container">
+        <form method="POST">
+            <div class="form-grid">
+                {% for nombre, valores in variables.items() %}
+                    {% if nombre != "CONDICION" %}  
+                    <div class="campo">
+                        <label>{{ nombre }}:</label>
+                        {% if valores %}
+                        <select name="{{ nombre }}">
+                            {% for valor in valores %}
+                            <option value="{{ valor }}" {% if datos[nombre] == valor %}selected{% endif %}>{{ valor }}</option>
+                            {% endfor %}
+                        </select>
+                        {% else %}
+                        <input type="text" name="{{ nombre }}" value="{{ datos[nombre] or '' }}" />
+                        {% if rangos[nombre] %}
+                            <div class="hint">Valores válidos entre {{ rangos[nombre][0] }} y {{ rangos[nombre][1] }}</div>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <input type="submit" value="Predecir">
+        </form>
+
+        {% if mensaje %}
+        <div class="resultado">
+            <strong>Resultado de la predicción:</strong><br><br>
+            {{ mensaje }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
